@@ -4,7 +4,7 @@
 
 A quiet daily edition of Sanzo Wada’s *A Dictionary of Color Combinations*. Each local calendar day opens one of 348 original numbered palettes, presented with generous whitespace, warm ivory paper, and restrained typography.
 
-![The Color Book displaying combination 303 with four adjacent swatches, the book title, navigation, and a written date](docs/images/colorbook.png)
+![The Color Book displaying combination 303 with four adjacent swatches, the book title, navigation, and a written date](docs/images/colorbook.jpg)
 
 *Combination 303: Naples Yellow, Peach Red, Deep Slate Olive, and Neutral Gray. Captured October 30, 2026.*
 
