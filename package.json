@@ -1,0 +1,33 @@
+{
+  "name": "colorbook",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "One day. One historical color combination from Sanzo Wada.",
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "prebuild": "npm run data:import",
+    "build": "next build",
+    "start": "node scripts/serve-static.mjs",
+    "preview": "npm run build && npm start",
+    "data:import": "node scripts/import-palettes.mjs",
+    "data:fetch": "node scripts/import-palettes.mjs --fetch",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs",
+    "test:routes": "node scripts/check-routes.mjs"
+  },
+  "dependencies": {
+    "next": "16.4.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "~5.9.3"
+  }
+}
