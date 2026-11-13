@@ -1,20 +1,40 @@
 # The Color Book
 
-A quiet daily edition of Sanzo Wada’s 348 historical color combinations, prepared for **colorbook.pmg.dev**. Built with Next.js App Router, TypeScript, React, and Tailwind CSS. No accounts, analytics, cookies, runtime data services, or UI libraries.
+**One day. One historical Japanese color combination.**
 
-## Run on your Mac
+A quiet daily edition of Sanzo Wada’s *A Dictionary of Color Combinations*. Each local calendar day opens one of 348 original numbered palettes, presented with generous whitespace, warm ivory paper, and restrained typography.
 
-Requires Node.js 22.13 or newer. If you use nvm, run `nvm install` and `nvm use` in this folder; `.nvmrc` selects Node 22. No environment variables, server account, or DNS configuration are required.
+![The Color Book displaying combination 303 with four adjacent swatches, the book title, navigation, and a written date](docs/images/colorbook.png)
 
-Install dependencies once, then start development:
+*Combination 303: Naples Yellow, Peach Red, Deep Slate Olive, and Neutral Gray. Captured October 30, 2026.*
+
+## Features
+
+- All **348 combinations and 159 colors**, with original numbering, English names, HEX values, and CMYK values preserved from the source dataset.
+- Today’s palette follows the visitor’s local calendar and changes at local midnight.
+- Previous, Next, and arrow-key navigation; Today returns to the current edition. The header and written footer dates follow the displayed palette.
+- Click a swatch or HEX value to copy it. Share copies a permanent numbered URL such as `/277`.
+- Responsive layouts for two-, three-, and four-color palettes, accessible controls, and self-hosted fonts.
+- Pre-rendered pages and individual Open Graph previews, ready to serve as static files from your own web server.
+
+Built with **Next.js, TypeScript, React, and Tailwind CSS**. No accounts, analytics, cookies, runtime data services, or UI libraries.
+
+## Quick start
+
+Requires **Node.js 22.13 or newer** and npm. On macOS, these commands run directly in Terminal; no Docker, server account, or DNS configuration is required.
 
 ```sh
-cd /Users/pmg/colorbook
+git clone https://github.com/pgerhardt/colorbook.git
+cd colorbook
 npm ci
 npm run dev
 ```
 
+If you use nvm, run `nvm install` and `nvm use` after cloning and before installing dependencies; `.nvmrc` selects Node 22. No environment variables are required.
+
 Open http://127.0.0.1:3000. Edits update automatically. On later runs, just use `npm run dev`. Stop the server with **Control-C** in its terminal.
+
+## Build and preview
 
 To build and preview the complete static website locally:
 
@@ -22,7 +42,7 @@ To build and preview the complete static website locally:
 npm run preview
 ```
 
-This builds all 348 numbered pages and their share images into `out/`, then serves them at the same local address. Use `npm start` to serve an existing build without rebuilding. Direct links such as http://127.0.0.1:3000/277 work in both modes, including after a refresh. Copy and Share work on the local address; copied links are local to your Mac.
+This builds all 348 numbered pages and their share images into `out/`, then serves them at the same local address. Use `npm start` to serve an existing build without rebuilding. Direct links such as http://127.0.0.1:3000/277 work in both modes, including after a refresh. Copy and Share work on the local address; copied links are local to your computer.
 
 Run only one mode on port 3000 at a time. If another app uses that port, choose a different one:
 
@@ -53,7 +73,7 @@ npm run data:fetch   # Explicitly restore the pinned snapshot from GitHub
 
 The import script fails for a changed checksum, missing numbers, bad memberships, or unexpected palette/color counts. All palette data and fonts are local at runtime; ordinary builds require no font or dataset downloads. Dependency installation needs the npm registry.
 
-The original work dates to 1933. The later book, [A Dictionary of Color Combinations](https://en.seigensha.com/books/978-4-86152-247-5/), is published by Seigensha. Screen colors are the dataset’s digital interpretations of printed colors. The interface is inspired by Japanese print design and [sanzocolors.com](https://sanzocolors.com/); its palette data is imported exclusively from the specified repository.
+The historical source is Wada’s *Haishoku Sōkan* (配色総鑑), published in 1933–1934. Seigensha’s 2010 edition, [A Dictionary of Color Combinations](https://en.seigensha.com/books/978-4-86152-247-5/), brings these studies together in a compact reference. This project is an independent digital interpretation; screen colors are the dataset’s digital interpretations of printed swatches. The interface is inspired by Japanese print design and [sanzocolors.com](https://sanzocolors.com/); its palette data is imported exclusively from the specified repository.
 
 ## Daily behavior and URLs
 
@@ -87,7 +107,7 @@ npm run test:routes  # All 348 URLs, SSR, 404s, canonical/OG tags, PNGs, sitemap
 
 `TEST_BASE_URL` can point the route checks at a different local port or deployment. Calendar tests cover every day of several normal, leap, and century years across six timezones. Browser QA should include `/1`, `/121`, `/277`, `/348`, Today, copy/share, arrows, Back/Forward, the source dialog, and 320/390/768/desktop viewport widths.
 
-## Later: publish on your nginx web server
+## Self-hosting with nginx
 
 The application is a **static export for your own nginx web server**. There is no hosted-platform dependency, Node service, application port, database, or runtime API to configure.
 
@@ -98,11 +118,11 @@ npm run build
 
 Deploy the **entire contents of `out/`** to a dedicated Color Book document root on the server. Preserve its directory structure, including `_next/`, `.txt` navigation payloads, and the numbered image directories. Keep older hashed assets during an update if visitors may still have the previous version open; publishing versioned directories with a document-root symlink is an alternative.
 
-For the `colorbook.pmg.dev` nginx virtual host:
+The project’s canonical hostname is configured as `colorbook.pmg.dev`; substitute your own hostname when deploying elsewhere. For the nginx virtual host:
 
 1. Set `root` to that dedicated document root and include nginx’s usual MIME types.
 2. Include the location rules in [`deploy/nginx.locations.conf`](deploy/nginx.locations.conf), or put their contents inside this virtual host’s `server` block. They map `/277` to `277.html`, serve the extensionless Open Graph files as `image/png`, and keep unknown routes as real 404s. Do not add a catch-all rewrite to `index.html`.
-3. Add **colorbook.pmg.dev** to the same DNS and HTTPS setup used for your other sites. `.dev` domains require HTTPS in browsers; HTTPS also enables clipboard copying. Keep TLS configuration with your existing server/certificate manager.
+3. Point your hostname at the server and configure HTTPS. `.dev` domains require HTTPS in browsers; HTTPS also enables clipboard copying. Keep TLS configuration with your existing server/certificate manager.
 4. Validate the full nginx configuration with `nginx -t`, then reload nginx using the server’s existing service manager.
 5. Run `TEST_BASE_URL=https://colorbook.pmg.dev npm run test:routes` to check the deployed hostname.
 
